@@ -17,7 +17,7 @@ pipeline {
         serviceName = 'testcicd' // Replace your serviceName
         imageName = "$serviceName"  // <prefix>/serviceName // prefix = project name
         project = 'demo-service'
-        namespace = "$project" + '-' + "$env"
+        namespace = "$project" + '-' + "$env" //
     }
 
     stages {
@@ -77,15 +77,14 @@ pipeline {
             // some block
               script {
                   sh '''
-                                echo ${env.imageToDeploy}
-                                ls -al manifests
-                                cat manifests/deployment.yaml
-                                cat manifests/service.yaml
-                                cat manifests/ingress.yaml
-                                kubectl apply -n $namespace -f manifests/deployment.yaml
-                                kubectl apply -n $namespace -f manifests/service.yaml
-                                kubectl apply -n $namespace -f manifests/ingress.yaml
-                                '''
+                        ls -al manifests
+                        cat manifests/deployment.yaml
+                        cat manifests/service.yaml
+                        cat manifests/ingress.yaml
+                        kubectl apply -n $namespace -f manifests/deployment.yaml
+                        kubectl apply -n $namespace -f manifests/service.yaml
+                        kubectl apply -n $namespace -f manifests/ingress.yaml
+                        '''
                   sh 'kubectl get no'
               }
             }
