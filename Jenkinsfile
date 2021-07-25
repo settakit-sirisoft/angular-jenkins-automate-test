@@ -10,7 +10,7 @@ pipeline {
         dockerCredential = 'dockerCredential'
         version_tag = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
         nodeJSImage = 'node:lts-alpine'
-        serviceName = 'testCICD' // Replace your serviceName
+        serviceName = 'testcicd' // Replace your serviceName
         imageName = "$serviceName"  // <prefix>/serviceName // prefix = project name
         project = 'demo-service'
         namespace = "$project" + '-' + "$env"
