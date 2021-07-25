@@ -1,6 +1,11 @@
 
 pipeline {
-      environment {
+    agent any
+
+    tools {nodejs "NodeJSInstaller"}
+
+    environment {
+        CHROME_BIN = '/bin/google-chrome'
         env = 'dev'
         dockerHub = 'dockerCredential'
         version_tag = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
@@ -9,13 +14,6 @@ pipeline {
         imageName = "$serviceName"  // <prefix>/serviceName // prefix = project name
         project = 'demo-service'
         namespace = "$project" + '-' + "$env"
-    }
-    agent any
-
-    tools {nodejs "NodeJSInstaller"}
-
-    environment {
-        CHROME_BIN = '/bin/google-chrome'
     }
 
     stages {
