@@ -2,7 +2,7 @@
 pipeline {
     agent any
 
-    tools {nodejs "node"}
+    tools {nodejs "NodeJSInstaller"}
 
     environment {
         CHROME_BIN = '/bin/google-chrome'
