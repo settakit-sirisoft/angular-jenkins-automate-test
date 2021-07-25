@@ -45,12 +45,13 @@ pipeline {
         stage('Build DockerFile And Push') {
           steps {
             script {
-              docker.withRegistry('', "${env.dockerCredential}") {
-                a = docker.build('settawat' + '/' + "${serviceName}" + ':' + "${version_tag}", '-f Dockerfile .')
-              }
-              docker.withRegistry('', "${env.dockerCredential}") {
-                a.push()
-              }
+              sh 'docker build -t settawat/"${serviceName:"${version_tag} -f Dockerfile .}'
+              // docker.withRegistry('', "${env.dockerCredential}") {
+              //   a = docker.build('settawat' + '/' + "${serviceName}" + ':' + "${version_tag}", '-f Dockerfile .')
+              // }
+              // docker.withRegistry('', "${env.dockerCredential}") {
+              //   a.push()
+              // }
             }
           }
         }
