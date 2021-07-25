@@ -47,7 +47,7 @@ pipeline {
             script {
               // sh 'docker build -t settawat/"${serviceName}:"${version_tag} -f Dockerfile .'
               docker.withRegistry('', "${env.dockerCredential}") {
-                a = docker.build('settawat' + '/' + "${serviceName}" + ':' + "${version_tag}", '-f Dockerfile .')
+                a = docker.build('sjanpuk' + '/' + "${serviceName}" + ':' + "${version_tag}", '-f Dockerfile .')
                 a.push()
               }
             }
