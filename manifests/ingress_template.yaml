@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+    nginx.ingress.kubernetes.io/cors-allow-methods: PUT, GET, POST, OPTIONS, DELETE
+    nginx.ingress.kubernetes.io/cors-allow-origin: '*'
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+  name: '${serviceName}-${env}'
+  namespace: '${namespace}'
+spec:
+  rules:
+  - host: '${serviceName}-${env}.com'
+    http:
+      paths:
+      - backend:
+          serviceName: '${serviceName}-service'
+          servicePort: 8080
+        path: /
+        pathType: ImplementationSpecific

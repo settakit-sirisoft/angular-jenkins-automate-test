@@ -1,0 +1,130 @@
+apiVersion: extensions/v1beta1
+kind: Pod
+metadata:
+  name: product-service
+  namespace: 'example-namespace'
+spec:
+  template:
+    metadata:
+      labels:
+        app: product-service
+    spec:
+      restartPolicy: Always
+      imagePullSecrets:
+      - name: registry-pull-secret
+      containers:
+      - image: cpn-registry/product-service:latest
+        name: product-service
+        ports:
+        - containerPort: 3000
+        livenessProbe:
+            httpGet:
+            path: /api/liveness_check
+            port: 8080
+          initialDelaySeconds: 3
+          periodSeconds: 3
+        readinessProbe:
+          httpGet:
+            path: /api/readiness_check
+            port: 8080
+          initialDelaySeconds: 3
+          periodSeconds: 3
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "2Gi"
+          requests:
+            cpu: "250m"
+            memory: "1Gi"
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: product-service
+  namespace: 'example-namespace'
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: product-service
+    spec:
+      restartPolicy: Always
+      imagePullSecrets:
+      - name: registry-pull-secret
+      containers:
+      - image: cpn-registry/product-service:latest
+        name: product-service
+        ports:
+        - containerPort: 3000
+        livenessProbe:
+            httpGet:
+            path: /api/liveness_check
+            port: 8080
+          initialDelaySeconds: 3
+          periodSeconds: 3
+        readinessProbe:
+          httpGet:
+            path: /api/readiness_check
+            port: 8080
+          initialDelaySeconds: 3
+          periodSeconds: 3
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "2Gi"
+          requests:
+            cpu: "250m"
+            memory: "1Gi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: 'product-service'
+  namespace: 'example-namespace'
+spec:
+  clusterIP: None
+  ports:
+  - name: default
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: 'product-service'
+  sessionAffinity: None
+  type: ClusterIP
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+    nginx.ingress.kubernetes.io/cors-allow-methods: PUT, GET, POST, OPTIONS, DELETE
+    nginx.ingress.kubernetes.io/cors-allow-origin: '*'
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+  name: 'product-ingress'
+  namespace: 'example-namespace'
+spec:
+  tls:
+    - hosts:
+        - cpn.example-host.com
+      secretName: cpn-example-host-tls
+  rules:
+  - host: 'cpn.example-host.com'
+    http:
+      paths:
+      - backend:
+          serviceName: 'product-service'
+          servicePort: 80
+        path: /
+        pathType: ImplementationSpecific
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: testsecret-tls
+  namespace: default
+data:
+  tls.crt: /** base64 encoded here **/
+  tls.key: base64 encoded key
+type: kubernetes.io/tls
