@@ -90,6 +90,10 @@ pipeline {
             }
           }
         }
+
+        stage('Remove cypress result') {
+          sh 'rm -rf results/*'
+        }
     }
 
     post {
