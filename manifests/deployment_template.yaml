@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: '${serviceName}'
+  namespace: '${namespace}'
   labels:
     app: '${serviceName}'
 spec:
@@ -16,7 +17,7 @@ spec:
     spec:
       containers:
       - name: '${serviceName}'
-        image: 'settawat/${serviceName}:${version_tag}'
+        image: 'sjanpuk/${serviceName}:${version_tag}'
         # envFrom:
         # - secretRef:
         #     name: '${serviceName}-${env}-secret'

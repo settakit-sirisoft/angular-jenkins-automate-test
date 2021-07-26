@@ -2,21 +2,19 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: 'testcicd'
+  namespace: 'demo-service-dev'
   labels:
-    app: 'test-cicd'
+    app: 'testcicd'
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: 'test-cicd'
+      app: 'testcicd'
   template:
     metadata:
       labels:
-        app: 'test-cicd'
+        app: 'testcicd'
     spec:
       containers:
-      - name: 'test-cicd'
-        image: 'sjanpuk/testcicd:fcd9473'
-        envFrom:
-        # - secretRef:
-        #     name: 'testcicd-${env}-secret'
+      - name: 'testcicd'
+        image: 'settawat/testcicd:eaf4bb4'
