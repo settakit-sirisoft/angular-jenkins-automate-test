@@ -1,11 +1,15 @@
-describe('My First Test', () => {
+describe('Automate Testing...', () => {
 
   beforeEach(() => {
     cy.visit('/')
   })
 
-  it('Visits the initial project page', () => {
-    // cy.get('#userenameLabel').contains('Username:')
-    cy.get('#h2Resource').contains('Resources')
+  it('Login Page Check Label', () => {
+    cy.get('#userenameLabel').contains('Username:')
+
   })
+
+  // it('Login Page Type Information', () => {
+  //   cy.get('#userenameLabel').contains('Username:')
+  // })
 })

@@ -6,6 +6,9 @@
   "pluginsFile": "cypress/plugins/index.ts",
   "fixturesFolder": "cypress/fixtures",
   "baseUrl": "http://localhost:4200",
+  "video": true,
+  "videoCompression": 0,
+  "videoUploadOnPasses": true,
   "reporter": "junit",
   "reporterOptions": {
     "mochaFile": "results/cypress-report.xml",

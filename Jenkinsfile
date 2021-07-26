@@ -88,24 +88,6 @@ pipeline {
                   sh 'kubectl get no'
               }
             }
-            // withKubeConfig([credentialsId: 'kube_credential', serverUrl: 'https://192.168.65.4:6443']) {
-            //   withCredentials([file(credentialsId: 'serviceEnv', variable: 'serviceEnv')]) {
-            //     script {
-            //       sh '''
-            //                     echo ${env.imageToDeploy}
-            //                     ls -al manifests
-            //                     cat manifests/deployment.yaml
-            //                     cat manifests/service.yaml
-            //                     cat manifests/ingress.yaml
-            //                     kubectl create secret generic $serviceName-${env.env}-secret --from-env-file=$serviceEnv -n $namespace -o yaml --dry-run | kubectl replace -f -
-            //                     kubectl apply -n $namespace -f manifests/deployment.yaml
-            //                     kubectl apply -n $namespace -f manifests/service.yaml
-            //                     kubectl apply -n $namespace -f manifests/ingress.yaml
-            //                     '''
-            //       sh 'kubectl get no'
-            //     }
-            //   }
-            // }
           }
         }
 
@@ -114,6 +96,12 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
+            }
+        }
+
+        post {
+            always {
+                junit 'results/cypress-report.xml'
             }
         }
     }
