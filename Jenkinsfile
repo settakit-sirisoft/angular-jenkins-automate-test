@@ -91,16 +91,18 @@ pipeline {
           }
         }
 
-        stage('Remove cypress result') {
+        stage('Apply Environment variable to deployment file') {
           steps {
-            sh 'rm -rf results/*'
+            script {
+              sh "rm -rf results/*"
+            }
           }
         }
     }
 
-    post {
-        always {
-            junit 'results/cypress-report.xml'
-        }
-    }
+    // post {
+    //     always {
+    //         junit 'results/cypress-report.xml'
+    //     }
+    // }
 }
