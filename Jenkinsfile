@@ -92,7 +92,9 @@ pipeline {
         }
 
         stage('Remove cypress result') {
-          sh 'rm -rf results/*'
+          steps {
+            sh 'rm -rf results/*'
+          }
         }
     }
 
