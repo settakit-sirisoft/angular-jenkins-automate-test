@@ -91,7 +91,7 @@ pipeline {
           }
         }
 
-        stage('Apply Environment variable to deployment file') {
+        stage('Remove cypress folder') {
           steps {
             script {
               sh "rm -rf results/*"
