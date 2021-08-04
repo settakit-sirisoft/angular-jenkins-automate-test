@@ -43,10 +43,10 @@ pipeline {
             }
         }
 
-        stage('archieve file'){
+        stage('Archieve Result Automate Testing'){
             steps{
                 script{
-                    archiveArtifacts artifacts: 'cypress/**/*'
+                    archiveArtifacts artifacts: 'cypress/videos/*.mp4'
                 }
             }
         }
@@ -70,6 +70,14 @@ pipeline {
               sh 'envsubst < manifests/service_template.yaml > manifests/service.yaml'
               sh 'envsubst < manifests/ingress_template.yaml > manifests/ingress.yaml'
             }
+          }
+        }
+
+        stage('Archieve Manifest File'){
+          steps{
+              script{
+                  archiveArtifacts artifacts: 'manifests/**/*.yaml'
+              }
           }
         }
 
