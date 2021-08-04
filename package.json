@@ -8,7 +8,9 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "cypress:ci": "concurrently \"cypress run\" --kill-others \"ng serve\" --success first"
+    "cypress:ci": "concurrently \"cypress run\" --kill-others \"ng serve\" --success first",
+    "report:merge": "mochawesome-merge --reportDir cypress/results/json > cypress/results/mochawesome-bundle.json",
+    "report:generate": "marge ./cypress/results/mochawesome-bundle.json -o cypress/reports/html"
   },
   "private": true,
   "dependencies": {
@@ -38,6 +40,7 @@
     "codelyzer": "^5.0.0",
     "concurrently": "6.2.0",
     "cypress": "8.0.0",
+    "cypress-multi-reporters": "1.5.0",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.1.0",
@@ -45,6 +48,10 @@
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.4.0",
+    "mocha": "9.0.3",
+    "mochawesome": "6.2.2",
+    "mochawesome-merge": "4.2.0",
+    "mochawesome-report-generator": "5.2.0",
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",

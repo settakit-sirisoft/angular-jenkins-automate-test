@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="Mocha Tests" time="2.7580" tests="1" failures="0">
-  <testsuite name="Root Suite" timestamp="2021-07-26T10:27:45" tests="0" file="cypress/integration/test.spec.ts" time="0.0000" failures="0">
-  </testsuite>
-  <testsuite name="Automate Testing..." timestamp="2021-07-26T10:27:45" tests="1" time="2.7580" failures="0">
-    <testcase name="Automate Testing... Login Page Check Label" time="2.7580" classname="Login Page Check Label">
-    </testcase>
-  </testsuite>
-</testsuites>

@@ -38,8 +38,16 @@ pipeline {
         // }
         stage('e2e Tests') {
             steps {
-                // sh 'npm run cypress:ci'
-                sh 'echo "e2e Tests"'
+                sh 'npm run cypress:ci'
+                // sh 'echo "e2e Tests"'
+            }
+        }
+
+        stage('archieve file'){
+            steps{
+                script{
+                    archiveArtifacts artifacts: 'cypress/**/*'
+                }
             }
         }
 
@@ -81,6 +89,7 @@ pipeline {
                         cat manifests/deployment.yaml
                         cat manifests/service.yaml
                         cat manifests/ingress.yaml
+                        kubectl create secret generic $serviceName-${env.env}-secret --from-env-file=$serviceEnv -n $namespace -o yaml --dry-run | kubectl replace -f -
                         kubectl apply -n $namespace -f manifests/deployment.yaml
                         kubectl apply -n $namespace -f manifests/service.yaml
                         kubectl apply -n $namespace -f manifests/ingress.yaml
@@ -91,13 +100,13 @@ pipeline {
           }
         }
 
-        stage('Remove cypress folder') {
-          steps {
-            script {
-              sh "rm -rf results/*"
-            }
-          }
-        }
+        // stage('Remove cypress folder') {
+        //   steps {
+        //     script {
+        //       sh "rm -rf results/*"
+        //     }
+        //   }
+        // }
     }
 
     // post {

@@ -9,9 +9,8 @@
   "video": true,
   "videoCompression": 0,
   "videoUploadOnPasses": true,
-  "reporter": "junit",
+  "reporter": "cypress-multi-reporters",
   "reporterOptions": {
-    "mochaFile": "results/cypress-report.xml",
-    "toConsole": true
+    "configFile": "reporter-config.json"
   }
 }
