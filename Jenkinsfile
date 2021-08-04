@@ -76,7 +76,9 @@ pipeline {
         stage('Archieve Manifest File'){
           steps{
               script{
-                  archiveArtifacts artifacts: 'manifests/**/*.yaml'
+                  archiveArtifacts artifacts: 'manifests/deployment.yaml'
+                  archiveArtifacts artifacts: 'manifests/service.yaml'
+                  archiveArtifacts artifacts: 'manifests/ingress.yaml'
               }
           }
         }
