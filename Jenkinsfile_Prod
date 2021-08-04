@@ -10,9 +10,9 @@ pipeline {
 
     environment {
         CHROME_BIN = '/bin/google-chrome'
-        env = 'dev'
+        env = 'prod'
         dockerCredential = 'dockerCredential'
-        version_tag = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
+        version_tag = "$params.Version"
         nodeJSImage = 'node:lts-alpine'
         serviceName = 'testcicd' // Replace your serviceName
         imageName = "$serviceName"  // <prefix>/serviceName // prefix = project name
