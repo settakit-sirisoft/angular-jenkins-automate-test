@@ -21,29 +21,25 @@ pipeline {
     }
 
     stages {
-        stage('Dependencies') {
+        stage('Install Dependencies') {
             steps {
                 sh 'npm i'
             }
         }
-        stage('Build') {
+        stage('Build Application') {
             steps {
                 sh 'npm run build'
             }
         }
-        // stage('Unit Tests') {
-        //     steps {
-        //         sh 'npm run test'
-        //     }
-        // }
-        stage('e2e Tests') {
+
+        stage('Run Cypress testing') {
             steps {
                 sh 'npm run cypress:ci'
                 // sh 'echo "e2e Tests"'
             }
         }
 
-        stage('Archieve Result Automate Testing'){
+        stage('Archieve Result of Automate Testing'){
             steps{
                 script{
                     archiveArtifacts artifacts: 'cypress/videos/*.mp4'
@@ -51,7 +47,7 @@ pipeline {
             }
         }
 
-        stage('Build DockerFile And Push') {
+        stage('Build & Push Image') {
           steps {
             script {
               // sh 'docker build -t settawat/"${serviceName}:"${version_tag} -f Dockerfile .'
@@ -63,7 +59,7 @@ pipeline {
           }
         }
 
-        stage('Apply Environment variable to deployment file') {
+        stage('Generate Manifest') {
           steps {
             script {
               sh 'envsubst < manifests/deployment_template.yaml > manifests/deployment.yaml'
@@ -83,7 +79,7 @@ pipeline {
           }
         }
 
-        stage('create secret and deploy app to kube cluster') {
+        stage('Generate ConfigMaps & Secret create secret and deploy app to kube cluster') {
           agent {
             docker {
               image 'alpine/k8s:1.19.8'
@@ -95,10 +91,6 @@ pipeline {
             // some block
               script {
                   sh '''
-                        ls -al manifests
-                        cat manifests/deployment.yaml
-                        cat manifests/service.yaml
-                        cat manifests/ingress.yaml
                         kubectl create secret generic $serviceName-${env.env}-secret --from-env-file=$serviceEnv -n $namespace -o yaml --dry-run | kubectl replace -f -
                         kubectl apply -n $namespace -f manifests/deployment.yaml
                         kubectl apply -n $namespace -f manifests/service.yaml
@@ -109,6 +101,11 @@ pipeline {
             }
           }
         }
+
+        // ls -al manifests
+        // cat manifests/deployment.yaml
+        // cat manifests/service.yaml
+        // cat manifests/ingress.yaml
 
         // stage('Remove cypress folder') {
         //   steps {
