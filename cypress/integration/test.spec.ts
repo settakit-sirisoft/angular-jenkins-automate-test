@@ -9,6 +9,6 @@ describe('Automate Testing...', () => {
     cy.get('#passwordLabel').contains('Password:')
     cy.get('#userenameLabel').type('admin')
     cy.get('#passwordLabel').type('password')
-    cy.get('#passwordLabel').click()
+    cy.get('#loginButton').click()
   })
 })

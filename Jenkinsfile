@@ -35,7 +35,6 @@ pipeline {
         stage('Run Cypress testing') {
             steps {
                 sh 'npm run cypress:ci'
-                // sh 'echo "e2e Tests"'
             }
         }
 
@@ -50,7 +49,6 @@ pipeline {
         stage('Build & Push Image') {
           steps {
             script {
-              // sh 'docker build -t settawat/"${serviceName}:"${version_tag} -f Dockerfile .'
               docker.withRegistry('', "${env.dockerCredential}") {
                 a = docker.build('sjanpuk' + '/' + "${serviceName}" + ':' + "${version_tag}", '-f Dockerfile .')
                 a.push()
