@@ -1,0 +1,106 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2021-08-06T05:52:56.223Z",
+    "end": "2021-08-06T05:53:00.736Z",
+    "duration": 4513,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "518a7070-9aff-4846-a77d-104682c64957",
+      "title": "",
+      "fullFile": "cypress/integration/test.spec.ts",
+      "file": "cypress/integration/test.spec.ts",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "a79f623a-83c2-4558-96cc-71aea486f19f",
+          "title": "Automate Testing...",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Login Page Check Label",
+              "fullTitle": "Automate Testing... Login Page Check Label",
+              "timedOut": null,
+              "duration": 4464,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#userenameLabel').contains('Username:');\ncy.get('#passwordLabel').contains('Password:');\ncy.get('#userenameLabel').type('admin');\ncy.get('#passwordLabel').type('password');\ncy.get('#loginButton').click();",
+              "err": {},
+              "uuid": "c291a775-1c2e-4741-a822-c4432ed4d5be",
+              "parentUUID": "a79f623a-83c2-4558-96cc-71aea486f19f",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "c291a775-1c2e-4741-a822-c4432ed4d5be"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 4464,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "6.2.2"
+    },
+    "marge": {
+      "options": {
+        "id": "default",
+        "reportDir": "cypress/results/json",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "5.2.0"
+    }
+  }
+}

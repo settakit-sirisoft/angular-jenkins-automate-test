@@ -15,26 +15,26 @@
               <h3 class="text-center text-info">Customer Registration</h3>
               <br>
               <div class="form-group">
-                <label for="firstname" class="text-info">Firstname:</label><br>
+                <label id="firstnameLabel" for="firstname" class="text-info">Firstname:</label><br>
                 <input type="text" name="firstname" id="firstnameInputID" class="form-control">
               </div>
               <div class="form-group">
-                <label for="lastname" class="text-info">Lastname:</label><br>
+                <label id="lastnameLabel" for="lastname" class="text-info">Lastname:</label><br>
                 <input type="text" name="lastname" id="lastnameInputID" class="form-control">
               </div>
               <div class="form-group">
-                <label for="age" class="text-info"><span>Age:</span></label>
+                <label id="ageLabel" for="age" class="text-info"><span>Age:</span></label>
                 <br>
                 <input type="number" name="age" id="ageInputID" class="form-control">
               </div>
               <div class="form-group">
-                <label for="citizen" class="text-info"><span>Citizen ID:</span></label>
+                <label id="citizenLabel" for="citizen" class="text-info"><span>Citizen ID:</span></label>
                 <br>
                 <input type="number" name="citizen" id="citizenInputID" class="form-control">
               </div>
               <div class="form-group text-center">
                 <br>
-                <button (click)="saveData()" class="btn btn-info btn-block">Save</button>
+                <button id="saveBtn" (click)="saveData()" class="btn btn-info btn-block">Save</button>
               </div>
             </form>
           </div>
