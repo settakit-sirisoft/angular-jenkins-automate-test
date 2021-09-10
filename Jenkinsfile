@@ -3,10 +3,9 @@ pipeline {
     agent any
 
     tools {
-      nodejs "NodeJSInstaller"
+      nodejs 'NodeJSInstaller'
       dockerTool  'DockerInstaller'
     }
-
 
     environment {
         CHROME_BIN = '/bin/google-chrome'
@@ -22,28 +21,28 @@ pipeline {
 
     stages {
         stage('Install Dependencies') {
-            steps {
-                sh 'npm i'
-            }
+      steps {
+        sh 'npm i'
+      }
         }
         stage('Build Application') {
-            steps {
-                sh 'npm run build'
-            }
+      steps {
+        sh 'npm run build'
+      }
         }
 
         stage('Run Cypress testing') {
-            steps {
-                sh 'npm run cypress:ci'
-            }
+      steps {
+        sh 'npm run cypress:ci'
+      }
         }
 
-        stage('Archieve Result of Automate Testing'){
-            steps{
-                script{
-                    archiveArtifacts artifacts: 'cypress/videos/*.mp4'
-                }
-            }
+        stage('Archieve Result of Automate Testing') {
+      steps {
+        script {
+          archiveArtifacts artifacts: 'cypress/videos/*.mp4'
+        }
+      }
         }
 
         stage('Build & Push Image') {
@@ -67,13 +66,13 @@ pipeline {
           }
         }
 
-        stage('Archieve Manifest File'){
-          steps{
-              script{
-                  archiveArtifacts artifacts: 'manifests/deployment.yaml'
-                  archiveArtifacts artifacts: 'manifests/service.yaml'
-                  archiveArtifacts artifacts: 'manifests/ingress.yaml'
-              }
+        stage('Archieve Manifest File') {
+          steps {
+        script {
+          archiveArtifacts artifacts: 'manifests/deployment.yaml'
+          archiveArtifacts artifacts: 'manifests/service.yaml'
+          archiveArtifacts artifacts: 'manifests/ingress.yaml'
+        }
           }
         }
 
@@ -86,15 +85,15 @@ pipeline {
           }
           steps {
             withKubeConfig(caCertificate: '', clusterName: 'docker-desktop', contextName: 'docker-desktop', credentialsId: 'kubeConfig', namespace: 'default', serverUrl: '192.168.65.4:6443') {
-            // some block
+              // some block
               script {
-                  sh '''
+            sh '''
                         kubectl create secret generic $serviceName-${env.env}-secret --from-env-file=$serviceEnv -n $namespace -o yaml --dry-run | kubectl replace -f -
                         kubectl apply -n $namespace -f manifests/deployment.yaml
                         kubectl apply -n $namespace -f manifests/service.yaml
                         kubectl apply -n $namespace -f manifests/ingress.yaml
                         '''
-                  sh 'kubectl get no'
+            sh 'kubectl get no'
               }
             }
           }
@@ -105,18 +104,18 @@ pipeline {
         // cat manifests/service.yaml
         // cat manifests/ingress.yaml
 
-        // stage('Remove cypress folder') {
-        //   steps {
-        //     script {
-        //       sh "rm -rf results/*"
-        //     }
-        //   }
-        // }
+    // stage('Remove cypress folder') {
+    //   steps {
+    //     script {
+    //       sh "rm -rf results/*"
+    //     }
+    //   }
+    // }
     }
 
-    // post {
-    //     always {
-    //         junit 'results/cypress-report.xml'
-    //     }
-    // }
+// post {
+//     always {
+//         junit 'results/cypress-report.xml'
+//     }
+// }
 }
