@@ -1,0 +1,125 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 2,
+    "passes": 2,
+    "pending": 0,
+    "failures": 0,
+    "start": "2021-09-10T09:28:42.309Z",
+    "end": "2021-09-10T09:28:47.586Z",
+    "duration": 5277,
+    "testsRegistered": 2,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "07b5f771-c67f-42a6-bc2e-5f137cf541a6",
+      "title": "",
+      "fullFile": "cypress/integration/scenario-1.ts",
+      "file": "cypress/integration/scenario-1.ts",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "4f48a524-b008-40e1-b10d-6af4994f33dc",
+          "title": "Automate Testing...",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Login Page Check Label",
+              "fullTitle": "Automate Testing... Login Page Check Label",
+              "timedOut": null,
+              "duration": 5173,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('/');\ncy.get('#userenameLabel').contains('Username:');\ncy.get('#passwordLabel').contains('Password:');\n// TYPE INPUT\ncy.get('#userenameLabel').type('admin');\ncy.get('#passwordLabel').type('password');\ncy.wait(500);\ncy.get('#loginBtn').click();",
+              "err": {},
+              "uuid": "c804a6b0-b021-4a5b-96e2-df1ad0aa591f",
+              "parentUUID": "4f48a524-b008-40e1-b10d-6af4994f33dc",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Register Page Check Label",
+              "fullTitle": "Automate Testing... Register Page Check Label",
+              "timedOut": null,
+              "duration": 60,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// \ncy.location().should((loc) => {\n    expect(loc.pathname).to.eq('/form-input');\n});\ncy.get('#firstnameLabel').contains('Firstname:');\ncy.get('#lastnameLabel').contains('Lastname:');\ncy.get('#ageLabel').contains('Age:');\ncy.get('#citizenLabel').contains('Citizen ID:');",
+              "err": {},
+              "uuid": "644af8e2-b2ea-4493-ae40-113854dd790d",
+              "parentUUID": "4f48a524-b008-40e1-b10d-6af4994f33dc",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "c804a6b0-b021-4a5b-96e2-df1ad0aa591f",
+            "644af8e2-b2ea-4493-ae40-113854dd790d"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 5233,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "6.2.2"
+    },
+    "marge": {
+      "options": {
+        "id": "default",
+        "reportDir": "cypress/results/json",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "5.2.0"
+    }
+  }
+}

@@ -15,18 +15,14 @@ describe('Automate Testing...', () => {
     cy.get('#loginBtn').click()
   })
 
-  it('Registe Page Check Label', () => {
+  it('Register Page Check Label', () => {
     // 
-
-
+    cy.location().should((loc) => {
+      expect(loc.pathname).to.eq('/form-input')
+    })
     cy.get('#firstnameLabel').contains('Firstname:')
     cy.get('#lastnameLabel').contains('Lastname:')
     cy.get('#ageLabel').contains('Age:')
     cy.get('#citizenLabel').contains('Citizen ID:')
-    // TYPE INPUT
-    // cy.get('#firstnameLabel').type('admin')
-    // cy.get('#lastnameLabel').type('password')
-    // cy.get('#ageLabel').type('13')
-    // cy.get('#citizenLabel').type('password')
   })
 })
