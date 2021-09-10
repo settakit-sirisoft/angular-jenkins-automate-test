@@ -48,7 +48,9 @@ pipeline {
         stage('Build & Push Image') {
           steps {
             script {
+              /* groovylint-disable-next-line NestedBlockDepth */
               docker.withRegistry('', "${env.dockerCredential}") {
+                /* groovylint-disable-next-line ConsecutiveStringConcatenation */
                 a = docker.build('sjanpuk' + '/' + "${serviceName}" + ':' + "${version_tag}", '-f Dockerfile .')
                 a.push()
               }

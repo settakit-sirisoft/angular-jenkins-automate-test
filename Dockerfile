@@ -15,13 +15,13 @@
 # RUN npm run build
 # RUN npm run cypress:ci
 
-# # ### STAGE 2: Run ###
-# # FROM nginx:1.13.0-alpine
-# # #### copy nginx conf
-# # COPY default.conf /etc/nginx/conf.d/default.conf 
-# # #### copy artifact build from the 'build environment'
-# # COPY --from=build /usr/src/app/dist/ktb-eos-whitelist /usr/share/nginx/html 
-# # EXPOSE 8080
+# ### STAGE 2: Run ###
+# FROM nginx:1.13.0-alpine
+# #### copy nginx conf
+# COPY default.conf /etc/nginx/conf.d/default.conf 
+# #### copy artifact build from the 'build environment'
+# COPY --from=build /usr/src/app/dist/ktb-eos-whitelist /usr/share/nginx/html 
+# EXPOSE 8080
 
 
 ### STAGE: Run ###
@@ -31,7 +31,7 @@ FROM nginx:1.13.0-alpine
 COPY default.conf /etc/nginx/conf.d/default.conf
 
 #### copy artifact build from the 'build environment'
-COPY --from=build dist/testAngular /usr/share/nginx/html
+COPY dist/testAngular /usr/share/nginx/html
 
 EXPOSE 8080
 
