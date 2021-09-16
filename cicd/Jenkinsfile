@@ -67,7 +67,7 @@ pipeline {
         stage('Build application image') {
             steps {
                 script {
-                    docker.withRegistry("", "kube_credential") {
+                    docker.withRegistry("", "docker-settakit-credential") {
                         container_image = docker.build("${env.image_name}", "-f docker/Dockerfile .")
                     }
                 }
@@ -85,7 +85,7 @@ pipeline {
         stage('Push application image') {
             steps {
                 script {
-                    docker.withRegistry("", "kube_credential") {
+                    docker.withRegistry("", "docker-settakit-credential") {
                         container_image.push()
                     }
                 }
