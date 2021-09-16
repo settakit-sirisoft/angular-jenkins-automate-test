@@ -130,12 +130,14 @@ pipeline {
         }
 
         stage('Automate test') {
-            try {
-                sh 'npm run test:cy'
-            }
-            catch (exc) {
-                echo 'Something failed, I should sound the klaxons!'
-                throw 'Something failed, I should sound the klaxons!'
+            steps {
+                try {
+                    sh 'npm run test:cy'
+                }
+                catch (exc) {
+                    echo 'Something failed, I should sound the klaxons!'
+                    throw 'Something failed, I should sound the klaxons!'
+                }
             }
         }
 
