@@ -1,16 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: '${serviceName}-service'
+  name: '${application_name}-service'
   namespace: '${namespace}'
 spec:
-  clusterIP: None
   ports:
   - name: default
-    port: 8080
+    port: ${server_port}
     protocol: TCP
-    targetPort: 8080
+    targetPort: ${server_port}
   selector:
-    app: '${serviceName}'
-  sessionAffinity: None
+    app: '${application_name}'
   type: ClusterIP

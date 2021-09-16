@@ -1,0 +1,43 @@
+apiVersion: configuration.konghq.com/v1
+kind: KongConsumer
+metadata:
+  name: cph
+  namespace: ${namespace}
+  annotations:
+    kubernetes.io/ingress.class: kong
+username: cph
+credentials:
+- phapi-cph
+---
+apiVersion: configuration.konghq.com/v1
+kind: KongConsumer
+metadata:
+  name: codeconnext
+  namespace: ${namespace}
+  annotations:
+    kubernetes.io/ingress.class: kong
+username: codeconnext
+credentials:
+- phapi-codeconnext
+---
+apiVersion: configuration.konghq.com/v1
+kind: KongConsumer
+metadata:
+  name: emerchant
+  namespace: ${namespace}
+  annotations:
+    kubernetes.io/ingress.class: kong
+username: emerchant
+credentials:
+- phapi-emerchant
+---
+apiVersion: configuration.konghq.com/v1
+kind: KongConsumer
+metadata:
+  name: sahatara
+  namespace: ${namespace}
+  annotations:
+    kubernetes.io/ingress.class: kong
+username: sahatara
+credentials:
+- phapi-sahatara

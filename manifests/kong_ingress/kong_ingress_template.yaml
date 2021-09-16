@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: '${application_name}-kong-ingress'
+  namespace: '${namespace}'
+  annotations:
+    konghq.com/plugins: kong-auth
+    kubernetes.io/ingress.class: "kong"
+spec:
+  rules:
+  - host: 'kong.${application_name}.${env}.com'
+    http:
+      paths:
+      - backend:
+          service:
+            name: '${application_name}-service'
+            port: 
+              number: ${server_port}
+        path: /
+        pathType: Prefix
+  # tls:
+  # - hosts:
+  #   - 'mdmsvc.${env}.krungthai'
+  #   secretName: '${application_name}-${env}-ingress-tls-secret'

@@ -1,0 +1,148 @@
+pipeline {
+
+    environment {
+        env = "${params.environment}"
+        image_repository_url = "https://registry.hub.docker.com"
+        image_repository_tag = "fluksettakit"
+        image_name = "${env.image_repository_tag}" + "/" + "${env.application_name}-${env.env}" + ":${BUILD_NUMBER}"
+        application_name = "${params.application_name}"
+        kubernetes_server_url = "https://172.16.16.100:6443"
+        namespace = "default"
+        server_port = "8080"
+    }
+
+    agent { label 'master' }
+
+    stages {
+
+        // stage('Code scan') {
+        //     environment {
+        //         scannerHome = tool 'SonarQubeScanner'
+        //     }
+        //     steps {
+        //         withSonarQubeEnv('sonarscan') {
+        //             sh "${scannerHome}/bin/sonar-scanner " +
+        //                 "-Dsonar.scm.disabled=True " +
+        //                 "-Dsonar.projectKey=${env.application_name}-${env.env} " +
+        //                 "-Dsonar.projectName=${env.application_name}-${env.env} " +
+        //                 "-Dsonar.sources=. " +
+        //                 "-Dsonar.sourceEncoding=UTF-8 " +
+        //                 "-Dsonar.exclusions=node_modules/**, k8s/**, .git/**, .vscode/** "
+
+        //         }
+        //     }
+        // }
+
+        // stage("Quality Gate") {
+        //     steps {
+        //         script {
+        //             def qg = waitForQualityGate() // Reuse taskId previously collected by withSonarQubeEnv
+        //             if (qg.status != 'OK') {
+        //                 echo "See report from URL: http://10.9.98.203:9000/dashboard?id=${env.application_name}-${env.env}"
+        //                 currentBuild.result = "FAILURE"
+        //                 error "Pipeline aborted due to quality gate failure: ${qg.status}"
+        //             }
+        //             echo "See report from URL: http://10.9.98.203:9000/dashboard?id=${env.application_name}-${env.env}"
+        //         }
+        //     }
+        // }
+
+        stage('Build source code') {
+            steps {
+                nodejs(nodeJSInstallationName: 'node16.8') {
+                    sh "npm install"
+                    sh "npm run build"
+                }
+            }
+        }
+
+        stage('Automate test') {
+            steps {
+                script {
+                    sh "echo testing..."
+                }
+            }
+        }
+
+        stage('Build application image') {
+            steps {
+                script {
+                    docker.withRegistry("", "kube_credential") {
+                        container_image = docker.build("${env.image_name}", "-f docker/Dockerfile .")
+                    }
+                }
+            }
+        }
+
+        stage('Image scan') {
+            steps {
+                script {
+                    sh "echo Image scan ...."
+                }
+            }
+        }
+
+        stage('Push application image') {
+            steps {
+                script {
+                    docker.withRegistry("", "kube_credential") {
+                        container_image.push()
+                    }
+                }
+            }
+        }
+
+        stage('Generate Manifest') {
+            steps {
+                script {
+                    load "cicd/config/pod-sizing-${env.env}.groovy"
+                    sh 'envsubst < manifests/deployment_template.yaml > manifests/deployment.yaml'
+                    sh 'envsubst < manifests/service_template.yaml > manifests/service.yaml'
+                    sh 'envsubst < manifests/ingress_template.yaml > manifests/ingress.yaml'
+                    // sh 'envsubst < manifests/kong_ingress/kong_consumer_template.yaml > manifests/kong_ingress/kong_consumer.yaml'
+                    // sh 'envsubst < manifests/kong_ingress/kong_credential_secret_template.yaml > manifests/kong_ingress/kong_credential_secret.yaml'
+                    // sh 'envsubst < manifests/kong_ingress/kong_ingress_template.yaml > manifests/kong_ingress/kong_ingress.yaml'
+                    // sh 'envsubst < manifests/kong_ingress/kong_key_auth_template.yaml > manifests/kong_ingress/kong_key_auth.yaml'
+                    // sh 'envsubst < manifests/istio_ingress/istio_ingress_template.yaml > manifests/istio_ingress/istio_ingress.yaml'
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                withKubeConfig([credentialsId: "kube_credential", serverUrl: "${env.kubernetes_server_url}"]) {
+                    script {
+                        sh """
+                        kubectl create configmap -n ${env.namespace} ${env.application_name}-${env.env}-config --from-env-file=config/${env.env}.env --dry-run=client -o yaml | kubectl apply -f -
+                        kubectl apply -n ${env.namespace} -f manifests/deployment.yaml
+                        kubectl apply -n ${env.namespace} -f manifests/service.yaml
+                        kubectl apply -n ${env.namespace} -f manifests/ingress.yaml
+                        """
+                        // kubectl apply -n ${env.namespace} -f manifests/kong_ingress/kong_consumer.yaml
+                        // kubectl apply -n ${env.namespace} -f manifests/kong_ingress/kong_credential_secret.yaml
+                        // kubectl apply -n ${env.namespace} -f manifests/kong_ingress/kong_ingress.yaml
+                        // kubectl apply -n ${env.namespace} -f manifests/kong_ingress/kong_key_auth.yaml
+                        // kubectl apply -n ${env.namespace} -f manifests/istio_ingress/istio_ingress.yaml
+                        // kubectl create secret generic -n ${env.namespace} ${env.application_name}-${env.env}-secret --from-env-file=config/${env.env}.env --dry-run=client -o yaml | kubectl apply -f -
+                    }
+                }
+            }
+        }
+
+        stage('Cleanup') {
+            steps {
+                script {
+                    sh "docker rmi ${env.image_name}" 
+                }      
+            }
+        }
+
+    }
+
+    // post {
+    //     always {
+    //         emailext body: 'A Test EMail', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Test'
+    //     }
+    // }
+
+}

@@ -1,23 +1,40 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: '${serviceName}'
+  name: '${application_name}'
   namespace: '${namespace}'
   labels:
-    app: '${serviceName}'
+    app: '${application_name}'
 spec:
-  replicas: 1
+  replicas: ${pod_replica}
   selector:
     matchLabels:
-      app: '${serviceName}'
+      app: '${application_name}'
   template:
     metadata:
       labels:
-        app: '${serviceName}'
+        app: '${application_name}'
     spec:
       containers:
-      - name: '${serviceName}'
-        image: 'sjanpuk/${serviceName}:${version_tag}'
-        # envFrom:
+      - name: '${application_name}'
+        image: '${image_name}'
+        # resources:
+        #   requests:
+        #     memory: ${request_ram}
+        #     cpu: ${request_cpu}
+        #   limits:
+        #     memory: ${limit_ram}
+        #     cpu: ${limit_cpu}
+        envFrom:
+        - configMapRef:
+            name: '${application_name}-${env}-config'
         # - secretRef:
-        #     name: '${serviceName}-${env}-secret'
+        #     name: '${application_name}-${env}-secret'
+      #   volumeMounts:
+      #   - name: config-vol
+      #     mountPath: /usr/share/nginx/html/env.js
+      #     subPath: env.js
+      # volumes:
+      # - name: config-vol
+      #   secret:
+      #     name: ${application_name}-${env}-secret

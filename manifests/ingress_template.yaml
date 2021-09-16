@@ -2,19 +2,29 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   annotations:
+    kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
     nginx.ingress.kubernetes.io/cors-allow-methods: PUT, GET, POST, OPTIONS, DELETE
     nginx.ingress.kubernetes.io/cors-allow-origin: '*'
+    nginx.ingress.kubernetes.io/ssl-ciphers: "ALL:!aNULL:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP"
     nginx.ingress.kubernetes.io/enable-cors: "true"
-  name: '${serviceName}-${env}'
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+  name: '${application_name}-ingress'
   namespace: '${namespace}'
 spec:
   rules:
-  - host: '${serviceName}-${env}.com'
+  - host: '${application_name}.${env}.171.16.16.101.nip.io'
     http:
       paths:
       - backend:
-          serviceName: '${serviceName}-service'
-          servicePort: 8080
+          serviceName: '${application_name}-service'
+          servicePort: ${server_port}
         path: /
-        pathType: ImplementationSpecific
+        pathType: Prefix
+  # tls:
+  # - hosts:
+  #   - 'mdmsvc.${env}.krungthai'
+  #   secretName: '${application_name}-${env}-ingress-tls-secret'
+
