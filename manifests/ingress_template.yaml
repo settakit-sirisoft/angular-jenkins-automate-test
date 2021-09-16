@@ -15,7 +15,7 @@ metadata:
   namespace: '${namespace}'
 spec:
   rules:
-  - host: '${application_name}.${env}.171.16.16.101.nip.io'
+  - host: '${application_name}.${env}.com'
     http:
       paths:
       - backend:
