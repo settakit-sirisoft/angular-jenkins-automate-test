@@ -133,12 +133,12 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh 'npm run test:cy'
+                        sh 'npm run cypress:ci'
                     }
                     catch (err) {
                         currentBuild.result = "FAILURE"
                         echo err.getMessage()
-                        error "ERROR MESSAGE: " + err.getMessage()
+                        error "ERROR STAGE: ${STAGE_NAME} MESSAGE: " + err.getMessage()
                     }
                 }
             }
