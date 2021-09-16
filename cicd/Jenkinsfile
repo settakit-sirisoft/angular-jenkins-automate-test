@@ -135,9 +135,10 @@ pipeline {
                     try {
                         sh 'npm run test:cy'
                     }
-                    catch (exc) {
-                        echo 'Something failed, I should sound the klaxons!'
-                        throw 'Something failed, I should sound the klaxons!'
+                    catch (err) {
+                        currentBuild.result = "FAILURE"
+                        echo err.getMessage()
+                        error "ERROR MESSAGE: " + err.getMessage()
                     }
                 }
             }
