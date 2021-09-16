@@ -117,6 +117,7 @@ pipeline {
                         kubectl apply -n ${env.namespace} -f manifests/deployment.yaml
                         kubectl apply -n ${env.namespace} -f manifests/service.yaml
                         kubectl apply -n ${env.namespace} -f manifests/ingress.yaml
+                        kubectl rollout status deployment ${env.application_name} -n ${env.namespace}
                         """
                         // kubectl apply -n ${env.namespace} -f manifests/kong_ingress/kong_consumer.yaml
                         // kubectl apply -n ${env.namespace} -f manifests/kong_ingress/kong_credential_secret.yaml
@@ -136,6 +137,14 @@ pipeline {
                         sh 'npm run test:cy'
                     }
                     catch (err) {
+                        withKubeConfig([credentialsId: "kube_credential", serverUrl: "${env.kubernetes_server_url}"]) {
+                            script {
+                                sh """
+                                kubectl rollout undo deployment ${env.application_name} -n ${env.namespace}
+                                kubectl rollout status deployment ${env.application_name} -n ${env.namespace}
+                                """
+                            }
+                        }
                         currentBuild.result = "FAILURE"
                         echo err.getMessage()
                         error "ERROR STAGE: ${STAGE_NAME} MESSAGE: " + err.getMessage()
