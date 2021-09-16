@@ -7,7 +7,7 @@ describe('Automate Testing...', () => {
   it('Login Page Check Label', () => {
     cy.visit('/')
     cy.get('#userenameLabel').contains('Username:')
-    cy.get('#passwordLabe').contains('Password:')
+    cy.get('#passwordLabel').contains('Password:')
     // TYPE INPUT
     cy.get('#userenameLabel').type('admin')
     cy.get('#passwordLabel').type('password')
@@ -18,7 +18,7 @@ describe('Automate Testing...', () => {
   it('Register Page Check Label', () => {
     // 
     cy.location().should((loc) => {
-      expect(loc.pathname).to.eq('/form-input')
+      expect(loc.pathname).to.eq('/form-input-eiei')
     })
     cy.get('#firstnameLabel').contains('Firstname:')
     cy.get('#lastnameLabel').contains('Lastname:')
