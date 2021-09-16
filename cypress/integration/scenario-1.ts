@@ -7,7 +7,7 @@ describe('Automate Testing...', () => {
   it('Login Page Check Label', () => {
     cy.visit('/')
     cy.get('#userenameLabel').contains('Username:')
-    cy.get('#passwordLabel').contains('Password:')
+    cy.get('#passwordLabe').contains('Password:')
     // TYPE INPUT
     cy.get('#userenameLabel').type('admin')
     cy.get('#passwordLabel').type('password')
