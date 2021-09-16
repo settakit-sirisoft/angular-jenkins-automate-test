@@ -56,13 +56,13 @@ pipeline {
             }
         }
 
-        stage('Automate test') {
-            steps {
-                script {
-                    sh "echo testing..."
-                }
-            }
-        }
+        // stage('Automate test') {
+        //     steps {
+        //         script {
+        //             sh "echo testing..."
+        //         }
+        //     }
+        // }
 
         stage('Build application image') {
             steps {
@@ -126,6 +126,16 @@ pipeline {
                         // kubectl create secret generic -n ${env.namespace} ${env.application_name}-${env.env}-secret --from-env-file=config/${env.env}.env --dry-run=client -o yaml | kubectl apply -f -
                     }
                 }
+            }
+        }
+
+        stage('Automate test') {
+            try {
+                sh 'npm run test:cy'
+            }
+            catch (exc) {
+                echo 'Something failed, I should sound the klaxons!'
+                throw
             }
         }
 

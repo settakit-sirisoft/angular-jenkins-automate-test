@@ -5,7 +5,7 @@
   "screenshotsFolder": "cypress/screenshots",
   "pluginsFile": "cypress/plugins/index.ts",
   "fixturesFolder": "cypress/fixtures",
-  "baseUrl": "http://localhost:4200",
+  "baseUrl": "http://test-angular.dev.com",
   "video": true,
   "videoCompression": 0,
   "videoUploadOnPasses": true,

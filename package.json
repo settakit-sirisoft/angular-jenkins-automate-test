@@ -10,7 +10,8 @@
     "e2e": "ng e2e",
     "cypress:ci": "concurrently \"cypress run\" --kill-others \"ng serve\" --success first",
     "report:merge": "mochawesome-merge --reportDir cypress/results/json > cypress/results/mochawesome-bundle.json",
-    "report:generate": "marge ./cypress/results/mochawesome-bundle.json -o cypress/reports/html"
+    "report:generate": "marge ./cypress/results/mochawesome-bundle.json -o cypress/reports/html",
+    "test:cy": "cypress run"
   },
   "private": true,
   "dependencies": {
