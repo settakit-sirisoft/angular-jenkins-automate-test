@@ -18,7 +18,7 @@ describe('Automate Testing...', () => {
   it('Register Page Check Label', () => {
     // 
     cy.location().should((loc) => {
-      expect(loc.pathname).to.eq('/form-input')
+      expect(loc.pathname).to.eq('/form-input-eiei')
     })
     cy.get('#firstnameLabel').contains('Firstname:')
     cy.get('#lastnameLabel').contains('Lastname:')

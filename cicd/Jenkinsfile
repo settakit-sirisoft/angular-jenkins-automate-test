@@ -146,9 +146,11 @@ pipeline {
                                 """
                             }
                         }
-                        currentBuild.result = "FAILURE"
-                        echo err.getMessage()
-                        error "ERROR STAGE: ${STAGE_NAME} MESSAGE: " + err.getMessage()
+                        catchError(buildResult: 'SUCCESS', stageResult: 'ABORTED') { 
+                            currentBuild.result = "FAILURE"
+                            echo err.toString()
+                            error "ERROR STAGE: ${STAGE_NAME} MESSAGE: " + err.toString()
+                        }
                     }
                 }
             }
