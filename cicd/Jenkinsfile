@@ -158,7 +158,13 @@ pipeline {
 
         stage('Automate test result') {
             steps {
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'cypress/reports', reportFiles: 'index.html', reportName: 'Automated Test Result', reportTitles: 'Automated Test Result'])
+                publishHTML (target : [allowMissing: false,
+                                alwaysLinkToLastBuild: true,
+                                keepAll: true,
+                                reportDir: 'cypress/reports',
+                                reportFiles: 'index.html',
+                                reportName: 'My Reports',
+                                reportTitles: 'The Report'])
             }
         }
 
