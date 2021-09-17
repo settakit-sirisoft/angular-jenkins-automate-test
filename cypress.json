@@ -5,12 +5,16 @@
   "screenshotsFolder": "cypress/screenshots",
   "pluginsFile": "cypress/plugins/index.ts",
   "fixturesFolder": "cypress/fixtures",
-  "baseUrl": "http://test-angular.dev.com",
+  "baseUrl": "http://localhost:4200",
   "video": true,
   "videoCompression": 0,
   "videoUploadOnPasses": true,
-  "reporter": "cypress-multi-reporters",
+  "reporter": "cypress-mochawesome-reporter",
   "reporterOptions": {
-    "configFile": "reporter-config.json"
+    "reportDir": "cypress/reports",
+    "charts": true,
+    "reportPageTitle": "testAngular Test result",
+    "embeddedScreenshots": true,
+    "inlineAssets": true
   }
 }
