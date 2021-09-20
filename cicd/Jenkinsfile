@@ -158,13 +158,14 @@ pipeline {
 
         stage('Automate test result') {
             steps {
-                publishHTML (target : [allowMissing: false,
-                                alwaysLinkToLastBuild: true,
-                                keepAll: true,
-                                reportDir: 'cypress/reports',
-                                reportFiles: 'index.html',
-                                reportName: 'My Reports',
-                                reportTitles: 'The Report'])
+                archiveArtifacts artifacts: 'cypress/reports/index.html'
+                // publishHTML (target : [allowMissing: false,
+                //                 alwaysLinkToLastBuild: true,
+                //                 keepAll: true,
+                //                 reportDir: 'cypress/reports',
+                //                 reportFiles: 'index.html',
+                //                 reportName: 'My Reports',
+                //                 reportTitles: 'The Report'])
             }
         }
 
